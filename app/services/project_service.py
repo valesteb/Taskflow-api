@@ -1,5 +1,6 @@
 from app.models.project import Project
 from app.repositories import project_repository
+from fastapi import FastAPI, HTTPException
 
 def get_projects():
     return project_repository.get_all_projects()
@@ -9,4 +10,8 @@ def create_project(project: Project):
 
     if existing_project is None:
         return project_repository.add_project(project)
-    return existing_project
+    
+    raise HTTPException(
+        status_code=409,
+        detail=f"project with ID {project.id} already exists! "
+    )
