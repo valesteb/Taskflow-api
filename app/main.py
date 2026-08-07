@@ -18,6 +18,10 @@ def root():
 def get_projects():
     return project_service.get_projects()
 
+@app.get("/projects/{project_id}")
+def get_project_by_id(project_id: int):
+    return project_service.get_project_by_id(project_id)
+
 
 
 @app.post("/projects")
