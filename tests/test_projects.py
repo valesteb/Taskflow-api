@@ -26,9 +26,9 @@ def test_create_project():
 def test_delete_project():
     response = client.delete("/projects/1",
      json={
-         "id": 1,
-         "name": "TaskFlow API",
-         "status": "In Progress"
+         "id": 2,
+         "name": "Personal Portfolio",
+         "status": "Completed"
      }
 
                              )
@@ -37,4 +37,4 @@ def test_delete_project():
     assert response.json()["id"] == 3
     assert response.json()["name"] == "New Project"
     assert response.json()["status"] == "In Progress"
-    assert response.json()["id"] == 1
+    assert response.json()["id"] == 2
