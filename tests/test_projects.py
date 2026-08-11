@@ -24,17 +24,9 @@ def test_create_project():
     )
 
 def test_delete_project():
-    response = client.delete("/projects/1",
-     json={
-         "id": 2,
-         "name": "Personal Portfolio",
-         "status": "Completed"
-     }
+    delete_response = client.delete("/projects/2")
 
-                             )
+    assert delete_response.status_code == 204
 
-    assert response.status_code == 201
-    assert response.json()["id"] == 3
-    assert response.json()["name"] == "New Project"
-    assert response.json()["status"] == "In Progress"
-    assert response.json()["id"] == 2
+    get_response = client.get("/projects/2")
+    assert get_response.status_code == 404
