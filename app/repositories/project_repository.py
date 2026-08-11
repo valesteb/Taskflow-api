@@ -1,4 +1,4 @@
-from app.models.project import Project
+from app.models.project import Project, ProjectUpdate
 
 projects = [
     Project(
@@ -30,3 +30,10 @@ def delete_project(project: Project):
     projects.remove(project)
     return project
 
+def update_project(project: Project, project_update: ProjectUpdate):
+    if project_update.name:
+        project.name = project_update.name
+    if project_update.status:
+        project.status = project_update.status
+
+    return project

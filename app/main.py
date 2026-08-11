@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.models.project import Project
+from app.models.project import Project, ProjectUpdate
 from app.services import project_service
 
 app = FastAPI(
@@ -31,3 +31,7 @@ def create_project(project: Project):
 @app.delete("/projects/{project_id}", status_code=204)
 def delete_project(project_id: int):
     return project_service.delete_project_by_id(project_id)
+
+@app.patch("/projects/{project_id}", status_code=200)
+def update_project(project_id: int, project_update: ProjectUpdate):
+    return project_service.update_project(project_id, project_update)

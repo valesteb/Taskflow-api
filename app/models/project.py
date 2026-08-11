@@ -5,4 +5,8 @@ class Project(BaseModel):
     name: str
     status: str
 
+class ProjectUpdate(BaseModel):
+    name: str | None = None
+    status: str | None = None
+
     

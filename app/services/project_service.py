@@ -37,3 +37,16 @@ def delete_project_by_id(project_id: int):
 
     return project_repository.delete_project(existing_project)  
 
+def update_project(project_id: int, project_update: ProjectUpdate):
+    existing_project = project_repository.get_project_by_id(project_id)
+
+    if existing_project is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Project with ID {project_id} not found"
+        )
+
+    return project_repository.update_project(
+        existing_project,
+        project_update
+    )
