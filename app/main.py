@@ -27,3 +27,7 @@ def get_project_by_id(project_id: int):
 @app.post("/projects", status_code=201)
 def create_project(project: Project):
     return project_service.create_project(project)
+
+@app.delete("/projects/{project_id}, status_code=204")
+def delete_project(project_id: int):
+    return project_service.delete_project(project_id)

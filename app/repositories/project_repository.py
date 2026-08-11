@@ -25,3 +25,8 @@ def get_project_by_id(project_id: int):
         if project.id == project_id:
             return project
     return None
+
+def delete_project(project: Project):
+    projects.remove(project)
+    return project
+
