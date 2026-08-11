@@ -26,7 +26,7 @@ def create_project(project: Project):
         detail=f"project with ID {project.id} already exists! "
     )
 
-def delete_project(project_id: int):
+def delete_project_by_id(project_id: int):
     existing_project = project_repository.get_project_by_id(project_id)
 
     if existing_project is None:

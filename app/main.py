@@ -28,6 +28,6 @@ def get_project_by_id(project_id: int):
 def create_project(project: Project):
     return project_service.create_project(project)
 
-@app.delete("/projects/{project_id}, status_code=204")
+@app.delete("/projects/{project_id}", status_code=204)
 def delete_project(project_id: int):
-    return project_service.delete_project(project_id)
+    return project_service.delete_project_by_id(project_id)
