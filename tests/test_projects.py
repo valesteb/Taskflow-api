@@ -30,3 +30,17 @@ def test_delete_project():
 
     get_response = client.get("/projects/2")
     assert get_response.status_code == 404
+
+def test_update_project():
+    response = client.patch(
+        "/projects/1",
+        json={
+            "name": "Updated Project Name",
+            "status": "Completed"
+        }
+    )
+    assert response.status_code == 200
+    assert response.json()["id"] == 1
+    assert response.json()["name"] == "Updated Project Name"
+    assert response.json()["status"] == "Completed"
+    
