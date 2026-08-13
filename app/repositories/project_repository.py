@@ -1,5 +1,6 @@
 from app.models.project import Project, ProjectUpdate
 
+
 projects = [
     Project(
         id=1,

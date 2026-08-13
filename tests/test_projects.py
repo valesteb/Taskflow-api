@@ -1,7 +1,19 @@
+from copy import deepcopy
 from fastapi.testclient import TestClient
 from app.main import app
+from app.repositories.project_repository import projects
+import pytest
 
 client = TestClient(app)
+
+@pytest.fixture(autouse=True)
+def reset_projects():
+    original_projects = deepcopy(projects)
+
+    yield
+
+    projects.clear()
+    projects.extend(original_projects)
 
 def test_get_project_by_id():
     response = client.get("/projects/1")
@@ -22,6 +34,10 @@ def test_create_project():
         "status": "In Progress"
         }
     )
+    assert response.status_code == 201
+    assert response.json()["id"] == 3
+    assert response.json()["name"] == "New Project"
+    assert response.json()["status"] == "In Progress"
 
 def test_delete_project():
     delete_response = client.delete("/projects/2")
@@ -31,6 +47,10 @@ def test_delete_project():
     get_response = client.get("/projects/2")
     assert get_response.status_code == 404
 
+def test_project_two_exists():
+    response = client.get("/projects/2")
+    assert response.status_code == 200
+    
 def test_update_project():
     response = client.patch(
         "/projects/1",
@@ -43,4 +63,17 @@ def test_update_project():
     assert response.json()["id"] == 1
     assert response.json()["name"] == "Updated Project Name"
     assert response.json()["status"] == "Completed"
+    
+def test_create_duplicate_project():
+    response = client.post(
+        "/projects",
+        json={
+            "id": 1,
+            "name": "Duplicate Project",
+            "status": "In progress"
+        }
+    )
+    assert response.status_code == 409
+    assert response.json()["detail"] == "project with ID 1 already exists! "
+
     
