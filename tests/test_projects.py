@@ -47,6 +47,12 @@ def test_delete_project():
     get_response = client.get("/projects/2")
     assert get_response.status_code == 404
 
+def test_delete_nonexistent_project():
+    response = client.delete("/projects/999")
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Project with ID 999 not found"
+    
 def test_project_two_exists():
     response = client.get("/projects/2")
     assert response.status_code == 200
@@ -63,6 +69,17 @@ def test_update_project():
     assert response.json()["id"] == 1
     assert response.json()["name"] == "Updated Project Name"
     assert response.json()["status"] == "Completed"
+
+def test_update_nonexistent_project():
+    response = client.patch(
+        "/projects/999",
+        json={
+            "name": "Updated Project Name",
+            "status": "Completed"
+        }
+    )
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Project with ID 999 not found"
     
 def test_create_duplicate_project():
     response = client.post(
