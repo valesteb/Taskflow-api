@@ -93,4 +93,16 @@ def test_create_duplicate_project():
     assert response.status_code == 409
     assert response.json()["detail"] == "project with ID 1 already exists! "
 
+def test_create_project_invalid_id():
+    response = client.post(
+        "/projects",
+        json={
+            "id": "hola",
+            "name": "Invalid ID project",
+            "status": "In progress"
+        }
+    )
+    print(response.json())
+    assert response.status_code == 422
+
     
