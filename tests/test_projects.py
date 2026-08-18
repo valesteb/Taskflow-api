@@ -102,7 +102,46 @@ def test_create_project_invalid_id():
             "status": "In progress"
         }
     )
-    print(response.json())
-    assert response.status_code == 422
-
     
+    assert response.status_code == 422
+    assert response.json()["detail"][0]["type"] == "int_parsing"
+    assert response.json()["detail"][0]["loc"] == ["body", "id"]
+
+def test_create_project_invalid_name():
+    response = client.post(
+        "/projects",
+        json={
+            "id": 4,
+            "name": 123,
+            "status": "In progress"
+        }
+    )
+    
+    assert response.status_code == 422
+    assert response.json()["detail"][0]["type"] == "string_type"
+    assert response.json()["detail"][0]["loc"] == ["body", "name"]
+
+def test_create_project_invalid_status():
+    response = client.post(
+        "/projects",
+        json={
+            "id": 5,
+            "name": "Invalid Status Project",
+            "status": 123
+        }
+    )
+    
+    assert response.status_code == 422
+    assert response.json()["detail"][0]["type"] == "string_type"
+    assert response.json()["detail"][0]["loc"] == ["body", "status"]
+
+def test_update_project_invalid_name():
+    response = client.patch(
+        "/projects/1",
+        json={
+            "name": 123
+        }
+    )
+    assert response.status_code == 422
+    assert response.json()["detail"][0]["type"] == "string_type"
+    assert response.json()["detail"][0]["loc"] == ["body", "name"]
