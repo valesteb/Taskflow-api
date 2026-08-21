@@ -46,6 +46,12 @@ def update_project(project_id: int, project_update: ProjectUpdate):
             detail=f"Project with ID {project_id} not found"
         )
 
+    if project_update.name is None and project_update.status is None:
+        raise HTTPException(
+            status_code=422,
+            detail="At least one field must be provided for update"
+        )
+
     return project_repository.update_project(
         existing_project,
         project_update

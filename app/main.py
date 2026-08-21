@@ -22,8 +22,6 @@ def get_projects():
 def get_project_by_id(project_id: int):
     return project_service.get_project_by_id(project_id)
 
-
-
 @app.post("/projects", status_code=201)
 def create_project(project: Project):
     return project_service.create_project(project)

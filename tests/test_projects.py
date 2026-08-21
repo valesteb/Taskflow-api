@@ -145,3 +145,47 @@ def test_update_project_invalid_name():
     assert response.status_code == 422
     assert response.json()["detail"][0]["type"] == "string_type"
     assert response.json()["detail"][0]["loc"] == ["body", "name"]
+
+def test_update_project_invalid_status():
+    response = client.patch(
+        "/projects/1",
+        json={
+            "status": 123
+        }
+    )
+    assert response.status_code == 422
+    assert response.json()["detail"][0]["type"] == "string_type"
+    assert response.json()["detail"][0]["loc"] == ["body", "status"]
+
+def test_update_project_without_fields():
+    response = client.patch(
+        "/projects/1",
+        json={}
+    )
+    assert response.status_code == 422
+    assert response.json()["detail"] == "At least one field must be provided for update"
+
+def test_update_project_name_only():
+    response = client.patch(
+        "/projects/1",
+        json={
+            "name": "Updated TaskFlow API"
+        }
+    )
+    
+    assert response.status_code == 200
+    assert response.json()["name"] == "Updated TaskFlow API"
+    assert response.json()["status"] == "In Progress"
+
+def test_update_project_status_only():
+    response = client.patch(
+        "/projects/1",
+        json={
+            "status": "Completed"
+        }
+    )
+    assert response.status_code == 200
+    assert response.json()["name"] == "TaskFlow API"
+    assert response.json()["status"] == "Completed"
+
+    
