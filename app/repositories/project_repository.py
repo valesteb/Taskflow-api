@@ -38,3 +38,11 @@ def update_project(project: Project, project_update: ProjectUpdate):
         project.status = project_update.status
 
     return project
+
+def replace_project(existing_project: Project, new_project: Project):
+    for index, project in enumerate(projects):
+        if project.id == existing_project.id:
+            project[index] = new_project
+            return new_project
+        
+

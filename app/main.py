@@ -33,3 +33,7 @@ def delete_project(project_id: int):
 @app.patch("/projects/{project_id}", status_code=200)
 def update_project(project_id: int, project_update: ProjectUpdate):
     return project_service.update_project(project_id, project_update)
+
+@app.put("/projects/{project_id}")
+def replace_project(project_id:int, new_project: Project):
+    return project_service.replace_project(project_id, new_project)

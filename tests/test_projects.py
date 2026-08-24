@@ -188,4 +188,16 @@ def test_update_project_status_only():
     assert response.json()["name"] == "TaskFlow API"
     assert response.json()["status"] == "Completed"
 
+def test_replace_project():
+        response = client.put(
+            "/projects/1",
+            json={
+                "id": 999,
+                "name": "Conflicting Project",
+                "status": "Completed"
+            }
+        )
+
+        assert response.status_code == 409
+        assert response.json()["detail"] == "Project ID in URL and request body do not match"
     

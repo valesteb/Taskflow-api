@@ -56,3 +56,21 @@ def update_project(project_id: int, project_update: ProjectUpdate):
         existing_project,
         project_update
     )
+
+def replace_project(project_id: int, new_project: Project):
+    existing_project = project_repository.get_project_by_id(project_id)
+
+    if existing_project is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Project with ID {project_id} not found"
+        )
+    if project_id != new_project.id:
+        raise HTTPException(
+            status_code = 409,
+            detail = "Project ID in URL and request body do not match"
+        )
+    return project_repository.replace_project(
+        existing_project,
+        new_project
+        )
