@@ -42,7 +42,7 @@ def update_project(project: Project, project_update: ProjectUpdate):
 def replace_project(existing_project: Project, new_project: Project):
     for index, project in enumerate(projects):
         if project.id == existing_project.id:
-            project[index] = new_project
+            projects[index] = new_project
             return new_project
         
 
