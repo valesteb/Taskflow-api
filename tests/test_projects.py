@@ -208,3 +208,15 @@ def test_replace_project():
     assert get_response.status_code == 200
     assert get_response.json()["name"] == "Replaced TaskFlow API"
     assert get_response.json()["status"] == "Completed"
+
+def test_replace_nonexistent_project():
+    response = client.put(
+        "/projects/999",
+        json={
+            "id": 999,
+            "name": "Project Replacement",
+            "status": "In progress"
+        }
+    )
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Project with ID 999 not found"
