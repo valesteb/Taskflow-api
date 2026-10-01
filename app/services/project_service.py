@@ -2,8 +2,8 @@ from app.models.project import Project, ProjectUpdate
 from app.repositories import project_repository
 from fastapi import HTTPException
 
-def get_projects():
-    return project_repository.get_all_projects()
+def get_projects(db: session):
+    return project_repository.get_all_projects(db)
 
 def get_project_by_id(project_id: int):
     existing_project = project_repository.get_project_by_id(project_id)

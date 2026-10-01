@@ -1,4 +1,10 @@
 from fastapi import FastAPI
+from fastapi import Depends
+from sqlalchemy.orm import Session
+from sqlalchemy import select
+
+from app.db.models import Project as ProjectDB
+from app.db.database import get_db
 from app.models.project import Project, ProjectUpdate
 from app.services import project_service
 
@@ -7,6 +13,13 @@ app = FastAPI(
     description="Backend API for project management",
     version="0.1.0"
 )
+
+@app.get("/db-test")
+def db_test(db: Session = Depends(get_db)):
+    statement = select(ProjectDB)
+    projects = db.scalars(statement).all()
+
+    return projects
 
 @app.get("/")
 def root():

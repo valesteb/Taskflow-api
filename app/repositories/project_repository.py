@@ -1,4 +1,10 @@
 from app.models.project import Project, ProjectUpdate
+from app.db.models import Project as ProjectDB
+
+from sqlalchemy.orm import Session
+from sqlalchemy import select
+
+
 
 
 projects = [
@@ -15,7 +21,8 @@ projects = [
 ]
 
 def get_all_projects():
-    return projects
+    statement = select(ProjectDB)
+    return db.scalars(statement).all()
 
 def add_project(project: Project):
     projects.append(project)
