@@ -1,6 +1,8 @@
+from sqlalchemy.orm import session
 from app.models.project import Project, ProjectUpdate
 from app.repositories import project_repository
 from fastapi import HTTPException
+
 
 def get_projects(db: session):
     return project_repository.get_all_projects(db)
