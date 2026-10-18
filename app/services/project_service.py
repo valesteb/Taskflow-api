@@ -1,14 +1,14 @@
-from sqlalchemy.orm import session
+from sqlalchemy.orm import Session
 from app.models.project import Project, ProjectUpdate
 from app.repositories import project_repository
 from fastapi import HTTPException
 
 
-def get_projects(db: session):
+def get_projects(db: Session):
     return project_repository.get_all_projects(db)
 
-def get_project_by_id(project_id: int):
-    existing_project = project_repository.get_project_by_id(project_id)
+def get_project_by_id(project_id: int, db: Session):
+    existing_project = project_repository.get_project_by_id(project_id, db)
 
     if existing_project is None:
         raise HTTPException(

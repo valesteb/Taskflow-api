@@ -20,7 +20,7 @@ projects = [
     )
 ]
 
-def get_all_projects():
+def get_all_projects(db: Session):
     statement = select(ProjectDB)
     return db.scalars(statement).all()
 
@@ -28,11 +28,10 @@ def add_project(project: Project):
     projects.append(project)
     return project
 
-def get_project_by_id(project_id: int):
-    for project in projects:
-        if project.id == project_id:
-            return project
-    return None
+def get_project_by_id(project_id: int, db: Session):
+    statement = select(ProjectDB).where(ProjectDB.id == project_id)
+    return db.scalars(statement).first()
+
 
 def delete_project(project: Project):
     projects.remove(project)

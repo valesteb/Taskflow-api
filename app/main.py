@@ -28,8 +28,8 @@ def root():
     }
 
 @app.get("/projects")
-def get_projects():
-    return project_service.get_projects()
+def get_projects(db: Session = Depends(get_db)):
+    return project_service.get_projects(db)
 
 @app.get("/projects/{project_id}")
 def get_project_by_id(project_id: int):
