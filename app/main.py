@@ -32,8 +32,11 @@ def get_projects(db: Session = Depends(get_db)):
     return project_service.get_projects(db)
 
 @app.get("/projects/{project_id}")
-def get_project_by_id(project_id: int):
-    return project_service.get_project_by_id(project_id)
+def get_project_by_id(
+    project_id: int,
+    db: Session = Depends(get_db)
+):
+    return project_service.get_project_by_id(project_id, db)
 
 @app.post("/projects", status_code=201)
 def create_project(project: Project):
