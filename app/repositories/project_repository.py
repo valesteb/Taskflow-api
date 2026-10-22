@@ -24,17 +24,27 @@ def get_all_projects(db: Session):
     statement = select(ProjectDB)
     return db.scalars(statement).all()
 
-def add_project(project: Project):
-    projects.append(project)
-    return project
+def add_project(project: Project, db: Session):
+    project_db = ProjectDB(
+        id=project.id,
+        name=project.name,
+        status=project.status
+    )
+
+    db.add(project_db)
+    db.commit()
+    db.refresh(project_db)
+
+    return project_db
 
 def get_project_by_id(project_id: int, db: Session):
     statement = select(ProjectDB).where(ProjectDB.id == project_id)
     return db.scalars(statement).first()
 
 
-def delete_project(project: Project):
-    projects.remove(project)
+def delete_project(project: ProjectDB, db: Session):
+    db.delete(project)
+    db.commit()
     return project
 
 def update_project(project: Project, project_update: ProjectUpdate):

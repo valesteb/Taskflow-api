@@ -17,19 +17,19 @@ def get_project_by_id(project_id: int, db: Session):
         )
     return existing_project
 
-def create_project(project: Project):
-    existing_project = project_repository.get_project_by_id(project.id)
+def create_project(project: Project, db: Session):
+    existing_project = project_repository.get_project_by_id(project.id, db)
 
     if existing_project is None:
-        return project_repository.add_project(project)
+        return project_repository.add_project(project, db)
     
     raise HTTPException(
         status_code=409,
         detail=f"project with ID {project.id} already exists! "
     )
 
-def delete_project_by_id(project_id: int):
-    existing_project = project_repository.get_project_by_id(project_id)
+def delete_project_by_id(project_id: int, db: Session):
+    existing_project = project_repository.get_project_by_id(project_id, db)
 
     if existing_project is None:
         raise HTTPException(
@@ -37,7 +37,7 @@ def delete_project_by_id(project_id: int):
             detail=f"Project with ID {project_id} not found"
         )
 
-    return project_repository.delete_project(existing_project)  
+    return project_repository.delete_project(existing_project, db)
 
 def update_project(project_id: int, project_update: ProjectUpdate):
     existing_project = project_repository.get_project_by_id(project_id)

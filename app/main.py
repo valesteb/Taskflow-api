@@ -39,12 +39,18 @@ def get_project_by_id(
     return project_service.get_project_by_id(project_id, db)
 
 @app.post("/projects", status_code=201)
-def create_project(project: Project):
-    return project_service.create_project(project)
+def create_project(
+    project: Project,
+    db: Session = Depends(get_db)
+):
+    return project_service.create_project(project, db)
 
 @app.delete("/projects/{project_id}", status_code=204)
-def delete_project(project_id: int):
-    return project_service.delete_project_by_id(project_id)
+def delete_project(
+    project_id: int,
+    db: Session = Depends(get_db)
+):
+    return project_service.delete_project_by_id(project_id, db)
 
 @app.patch("/projects/{project_id}", status_code=200)
 def update_project(project_id: int, project_update: ProjectUpdate):
