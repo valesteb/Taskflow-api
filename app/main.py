@@ -53,9 +53,17 @@ def delete_project(
     return project_service.delete_project_by_id(project_id, db)
 
 @app.patch("/projects/{project_id}", status_code=200)
-def update_project(project_id: int, project_update: ProjectUpdate):
-    return project_service.update_project(project_id, project_update)
+def update_project(
+    project_id: int,
+    project_update: ProjectUpdate,
+    db: Session = Depends(get_db)
+):
+    return project_service.update_project(project_id, project_update, db)
 
 @app.put("/projects/{project_id}")
-def replace_project(project_id:int, new_project: Project):
-    return project_service.replace_project(project_id, new_project)
+def replace_project(
+    project_id:int,
+    new_project: Project,
+    db: Session = Depends(get_db)
+):
+    return project_service.replace_project(project_id, new_project, db)

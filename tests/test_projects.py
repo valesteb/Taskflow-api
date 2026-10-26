@@ -1,19 +1,7 @@
-from copy import deepcopy
 from fastapi.testclient import TestClient
 from app.main import app
-from app.repositories.project_repository import projects
-import pytest
 
 client = TestClient(app)
-
-@pytest.fixture(autouse=True)
-def reset_projects():
-    original_projects = deepcopy(projects)
-
-    yield
-
-    projects.clear()
-    projects.extend(original_projects)
 
 def test_get_project_by_id():
     response = client.get("/projects/1")

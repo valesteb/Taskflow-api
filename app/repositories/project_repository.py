@@ -47,18 +47,33 @@ def delete_project(project: ProjectDB, db: Session):
     db.commit()
     return project
 
-def update_project(project: Project, project_update: ProjectUpdate):
-    if project_update.name:
+def update_project(
+    project: ProjectDB,
+    project_update: ProjectUpdate,
+    db: Session
+):
+    if project_update.name is not None:
         project.name = project_update.name
-    if project_update.status:
+
+    if project_update.status is not None:
         project.status = project_update.status
+
+    db.commit()
+    db.refresh(project)
 
     return project
 
-def replace_project(existing_project: Project, new_project: Project):
-    for index, project in enumerate(projects):
-        if project.id == existing_project.id:
-            projects[index] = new_project
-            return new_project
+def replace_project(
+    existing_project: ProjectDB,
+    new_project: Project,
+    db: Session
+):
+    existing_project.name = new_project.name
+    existing_project.status = new_project.status
+    
+    db.commit()
+    db.refresh(existing_project)
+
+    return existing_project
         
 

@@ -39,8 +39,13 @@ def delete_project_by_id(project_id: int, db: Session):
 
     return project_repository.delete_project(existing_project, db)
 
-def update_project(project_id: int, project_update: ProjectUpdate):
-    existing_project = project_repository.get_project_by_id(project_id)
+def update_project(
+    project_id: int,
+    project_update: ProjectUpdate,
+    db: Session
+):
+    
+    existing_project = project_repository.get_project_by_id(project_id, db)
 
     if existing_project is None:
         raise HTTPException(
@@ -56,11 +61,16 @@ def update_project(project_id: int, project_update: ProjectUpdate):
 
     return project_repository.update_project(
         existing_project,
-        project_update
+        project_update,
+        db
     )
 
-def replace_project(project_id: int, new_project: Project):
-    existing_project = project_repository.get_project_by_id(project_id)
+def replace_project(
+    project_id: int,
+    new_project: Project,
+    db: Session
+):
+    existing_project = project_repository.get_project_by_id(project_id, db)
 
     if existing_project is None:
         raise HTTPException(
@@ -74,5 +84,6 @@ def replace_project(project_id: int, new_project: Project):
         )
     return project_repository.replace_project(
         existing_project,
-        new_project
+        new_project,
+        db
         )
