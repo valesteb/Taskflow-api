@@ -1,4 +1,4 @@
-from app.models.project import Project, ProjectUpdate
+from app.schemas.project import Project, ProjectUpdate
 from app.db.models import Project as ProjectDB
 
 from sqlalchemy.orm import Session

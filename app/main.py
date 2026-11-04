@@ -5,7 +5,7 @@ from sqlalchemy import select
 
 from app.db.models import Project as ProjectDB
 from app.db.database import get_db
-from app.models.project import Project, ProjectUpdate
+from app.schemas.project import Project, ProjectUpdate
 from app.services import project_service
 
 app = FastAPI(
