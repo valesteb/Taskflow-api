@@ -7,6 +7,7 @@ from app.db.models import Project as ProjectDB
 from app.db.database import get_db
 from app.schemas.project import Project, ProjectUpdate
 from app.services import project_service
+from app.api.routes import projects
 
 app = FastAPI(
     title="TaskFlow API",
@@ -14,29 +15,13 @@ app = FastAPI(
     version="0.1.0"
 )
 
-@app.get("/db-test")
-def db_test(db: Session = Depends(get_db)):
-    statement = select(ProjectDB)
-    projects = db.scalars(statement).all()
-
-    return projects
+app.include_router(projects.router)
 
 @app.get("/")
 def root():
     return {
         "message": "Welcome to the TaskFlow API!"
     }
-
-@app.get("/projects")
-def get_projects(db: Session = Depends(get_db)):
-    return project_service.get_projects(db)
-
-@app.get("/projects/{project_id}")
-def get_project_by_id(
-    project_id: int,
-    db: Session = Depends(get_db)
-):
-    return project_service.get_project_by_id(project_id, db)
 
 @app.post("/projects", status_code=201)
 def create_project(
