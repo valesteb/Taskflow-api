@@ -16,4 +16,9 @@ def get_project_by_id(
 ):
     return project_service.get_project_by_id(project_id, db)
 
-
+@router.post("/projects", status_code=201)
+def create_project(
+    project: Project,
+    db: Session = Depends(get_db)
+):
+    return project_service.create_project(project, db)
